@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.dao.DataDao" >
+  <resultMap id="BaseResultMap" type="com.blog.domain.DataDemo" >
+    <id column="name" property="name" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectByWord" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    *
+    from dataDemo
+    where keywords LIKE CONCAT(CONCAT('%', #{word}), '%')
+    OR num LIKE CONCAT(CONCAT('%', #{word}), '%')
+    OR name LIKE CONCAT(CONCAT('%', #{word}), '%')
+  </select>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    *
+    from dataDemo
+    where id = #{id}
+  </select>
+
+  <select id="queryAll" resultMap="BaseResultMap" >
+    select *
+    from dataDemo
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dataDemo
+    where id = #{id, jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.blog.domain.DataDemo" >
+    insert into dataDemo (name, num,
+      picture, keywords)
+    values (#{name,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR},
+      #{picture,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="update" parameterType="com.blog.domain.DataDemo" >
+    update dataDemo
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

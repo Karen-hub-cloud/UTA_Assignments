@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>星·光</title>
+    <title>UTA Quiz</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/web-icon.png" media="screen" />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="/js/jquery-3.2.1.min.js"></script>
@@ -247,13 +247,13 @@
         <nav>
             <ul>
                 <li>
-                    <a href="/">首页</a>
-                    <a href="/about">关于</a>
+                    <a href="/">index</a>
+                    <a href="/about">about</a>
                 </li>
             </ul>
             <div class="my-info" onmouseover="hiddeewm()" onmouseout="hiddeewm()">
                 <figure></figure>
-                <span>星·光</span>
+                <span>UTA Quiz</span>
                 <div id="hiddenewm" hidden="true" >
                     <img src="img/me.jpg" width="200px" height="200px" >
                     <p></p>
@@ -263,9 +263,9 @@
     </header>
     <div id="bg" >
         <p>
-            和所有以梦为马的诗人一样
+            1001989820
             <br>
-            <i>岁月易逝 一滴不剩</i>
+            Kun Tian
         </p>
     </div>
 </div>
@@ -299,7 +299,7 @@
     <footer id="footer">
         <section id="copyright">
             <p style="font-size: 20px">
-                © 2018 <a href="/">星·光</a>
+                © 2022 <a href="/">UTA Quiz</a>
             </p>
         </section>
     </footer>

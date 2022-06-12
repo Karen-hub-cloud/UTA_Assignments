@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>星·光</title>
+    <title>UTA Quiz</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/web-icon.png" media="screen" />
 
     <style>
@@ -245,13 +245,14 @@
         <nav>
             <ul>
                 <li>
-                    <a href="/">首页</a>
-                    <a href="/about">关于</a>
+                    <a href="/">index</a>
+                    <a href="/about">about</a>
+                    <a href="/admin/dataDemo/list">list</a>
                 </li>
             </ul>
             <div class="my-info" onmouseover="hiddeewm()" onmouseout="hiddeewm()">
                 <figure></figure>
-                <span>星·光</span>
+                <span>UTA Quiz</span>
                 <div id="hiddenewm" hidden="true" >
                     <img src="img/me.jpg" width="200px" height="200px" >
                     <p></p>
@@ -261,18 +262,18 @@
     </header>
     <div id="bg" >
         <p>
-            和所有以梦为马的诗人一样
+            1001989820
             <br>
-            <i>岁月易逝 一滴不剩</i>
+           Kun Tian
         </p>
     </div>
     <div id="container">
         <article class="article">
             <p>
                 <br><br><br><br>
-            <h3>你来人间一趟，你要看看太阳</h3>
+            <h3>UTA Quiz</h3>
             <br><br>
-            <h3>邮箱:<a href="mailto:withstars@126.com">withstars@126.com</a></h3>
+            <h3>email:<a href="mailto:withstars@126.com">kxt9820@mavs.uta.edu</a></h3>
             <br><br><br><br>
             </p>
         </article>
@@ -283,7 +284,7 @@
 <footer id="footer">
     <section id="copyright">
         <p style="font-size: 20px">
-            © 2018 <a href="/">星·光</a>
+            © 2022 <a href="/">UTA Quiz</a>
         </p>
     </section>
 </footer>

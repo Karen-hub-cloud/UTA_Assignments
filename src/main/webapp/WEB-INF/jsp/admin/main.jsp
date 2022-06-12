@@ -6,19 +6,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>博客管理系统</title>
+    <title>UTA Quiz</title>
     <link rel="stylesheet" href="/css/bootstrap4.0.min.css" >
     <script src="/js/jquery.slim.min.js" ></script>
     <script src="/js/popper.min.js" ></script>
     <script src="/js/bootstrap4.0.min.js"></script>
     <script src="/js/layer.js"></script>
 </head>
+<div>
+    <header id="header">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">index</a>
+                    <a href="/about">about</a>
+                </li>
+            </ul>
+            <div class="my-info" onmouseover="hiddeewm()" onmouseout="hiddeewm()">
+                <figure></figure>
+                <span>UTA Quiz</span>
+                <div id="hiddenewm" hidden="true" >
+                    <img src="img/me.jpg" width="200px" height="200px" >
+                    <p></p>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="bg" >
+        <p>
+            1001989820
+            <br>
+            Kun Tian
+        </p>
+    </div>
+</div>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" >
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand text-success" href="/admin/main">博客管理</a>
+    <a class="navbar-brand text-success" href="/admin/main">UTA Quiz</a>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -26,7 +53,7 @@
                 <!-- Example single danger button -->
                 <div class="btn-group">
                     <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        新建
+                        Add
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="javascript:void(0);" onclick="fullScreen('添加文章','/admin/article/add')">文章</a>
@@ -35,23 +62,22 @@
                 </div>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/admin/main">主页 </a>
+                <a class="nav-link" href="/admin/main">Main Page</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/article/list">文章管理</a>
-
+                <a class="nav-link" href="/admin/dataDemo/list">List</a>
             </li>
 
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="/admin/article/search" method="GET">
-            <input class="form-control mr-sm-2" type="search" placeholder="文章标题或内容..." aria-label="Search" name="word">
-            <button class="btn btn-outline-success my-2 my-sm-0 btn-sm" type="submit">搜索</button>
+        <form class="form-inline my-2 my-lg-0" action="/admin/dataDemo/search" method="GET">
+            <input class="form-control mr-sm-2" type="search" placeholder="..." aria-label="Search" name="word">
+            <button class="btn btn-outline-success my-2 my-sm-0 btn-sm" type="submit">Search</button>
         </form>
 
-        <a class="btn btn-outline-danger btn-sm" href="/admin/logout" role="button">退出</a>
+        <a class="btn btn-outline-danger btn-sm" href="/admin/logout" role="button">exit</a>
     </div>
 </nav>
-<div class="card mb-3">
+<%--<div class="card mb-3">
     <div style="height: 180px;overflow: hidden">
         <img class="card-img-top" src="/img/82839-106.jpg" alt="Card image cap" style="height: 100%;width:100%;">
     </div>
@@ -83,9 +109,9 @@
         </tr>
         </tbody>
     </table>
-</div>
+</div>--%>
 
-<div style="width: 50%;position: relative;left: 25%">
+<%--<div style="width: 50%;position: relative;left: 25%">
     <table class="table table-sm" >
         <p class="text-success" style="text-align: center"> 系统信息</p>
 
@@ -103,7 +129,7 @@
         </tr>
 
     </table>
-</div>
+</div>--%>
 <script>
     function fullScreen(title,url){
         var index = layer.open({
@@ -114,7 +140,8 @@
             maxmin: true
         });
         layer.full(index);
-    }
+
+
 </script>
 </body>
 </html>
