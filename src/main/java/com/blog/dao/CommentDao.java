@@ -1,11 +1,11 @@
 package com.blog.dao;
 
-import com.blog.domain.Article;
-import com.blog.domain.Comment;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.blog.domain.Comment;
 
 @Repository
 public interface CommentDao {

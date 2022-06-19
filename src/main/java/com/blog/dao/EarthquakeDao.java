@@ -15,13 +15,17 @@ import com.blog.domain.Earthquake;
 public interface EarthquakeDao {
     int deleteByPrimaryKey(String id);
 
-    /*int insert(Earthquake record);
+    int insert(Earthquake record);
 
-    int update(Earthquake record);*/
+    int update(Earthquake record);
+
+    Earthquake selectById(String id);
 
     List<Earthquake> queryAll();
 
     List<Earthquake> searchLargestN(int n);
+
+    List<Earthquake> selectByParams(Earthquake record);
 
     List<Earthquake> selectByWord(String word);
 
@@ -30,6 +34,4 @@ public interface EarthquakeDao {
     List<Earthquake> countScale(String magType, double mag);
 
     int recentlyQuakes(String magType, double minMag, double maxMag, int recent);
-
-    Earthquake selectById(String id);
 }

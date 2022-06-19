@@ -26,14 +26,40 @@
     <result column="magSource" property="magSource" jdbcType="VARCHAR" />
   </resultMap>
 
-  <select id="selectByWord" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select
-    *
-    from earthquake
-    where place LIKE CONCAT(CONCAT('%', #{word}), '%')
-  </select>
+  <insert id="insert" parameterType="com.blog.domain.Earthquake" >
+    insert into earthquake (time,latitude,longitude,depth,mag,magType,nst,rms,net,
+                            updated,place,type,horizontalError,depthError,magError,magNst,status,locationSource,magSource)
+    values (#{time}, #{latitude},
+            #{longitude}, #{depth},
+            #{mag}, #{magType},
+            #{nst}, #{rms},
+            #{net}, #{updated},
+            #{place}, #{type},
+            #{horizontalError}, #{depthError},
+            #{magError}, #{magNst},
+            #{status}, #{locationSource},
+            #{magSource})
+  </insert>
 
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from earthquake
+    where id = #{id}
+  </delete>
+
+  <update id="update" parameterType="com.blog.domain.Earthquake" >
+    update earthquake
+    <set >
+      <if test="magType != null" >
+        magType = #{magType},
+      </if>
+      <if test="mag != null" >
+        mag = #{mag},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     *
     from earthquake
@@ -45,6 +71,16 @@
     from earthquake
   </select>
 
+  <select id="selectByWord" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+      *
+    from earthquake
+    where  id LIKE CONCAT(CONCAT('%', #{word}), '%') or latitude LIKE CONCAT(CONCAT('%', #{word}), '%')
+       or longitude LIKE CONCAT(CONCAT('%', #{word}), '%') or mag LIKE CONCAT(CONCAT('%', #{word}), '%')
+        or magType LIKE CONCAT(CONCAT('%', #{word}), '%') or net LIKE CONCAT(CONCAT('%', #{word}), '%')
+       or place LIKE CONCAT(CONCAT('%', #{word}), '%')
+  </select>
+
   <select id="searchLargestN" resultMap="BaseResultMap">
         SELECT * FROM earthquake ORDER BY mag DESC LIMIT #{n}
   </select>
@@ -52,6 +88,32 @@
   <select id="searchByPlace" resultMap="BaseResultMap">
         SELECT * FROM earthquake WHERE place
         LIKE CONCAT(CONCAT('%', #{word}), '%')
+  </select>
+
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="com.blog.domain.Earthquake" >
+    select
+      *
+    from earthquake
+    where 1=1
+    <if test="id != null" >
+      and id = #{net},
+    </if>
+    <if test="latitude != null" >
+      and latitude = #{latitude},
+    </if>
+    <if test="longitude != null" >
+      and longitude = #{longitude},
+    </if>
+    <if test="mag != null" >
+      and mag = #{mag},
+    </if>
+    <if test="magType != null" >
+      and magType = #{magNst},
+    </if>
+    <if test="net != null" >
+      and net = #{net},
+    </if>
+    and 1=1
   </select>
 
   <select id="countScale" resultMap="BaseResultMap">
@@ -62,35 +124,4 @@
     SELECT COUNT(*) FROM earthquake WHERE magType= #{magType} AND MAG >= #{minMag} AND Mag &lt;= #{maxMag}
     AND DATE_SUB(CURDATE(), INTERVAL #{recent} DAY) &lt;= date(time)
   </select>
-
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from earthquake
-    where id = #{id, jdbcType=VARCHAR}
-  </delete>
-
-  <!--<insert id="insert" parameterType="com.blog.domain.DataDemo" >
-    insert into earthquake (name, num,
-      picture, keywords)
-    values (#{name,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR},
-      #{picture,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR})
-  </insert>-->
-
-  <!--<update id="update" parameterType="com.blog.domain.DataDemo" >
-    update earthquake
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="keywords != null" >
-        keywords = #{keywords,jdbcType=VARCHAR},
-      </if>
-      <if test="num != null" >
-        num = #{num,jdbcType=VARCHAR},
-      </if>
-      <if test="picture != null" >
-        picture = #{picture,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>-->
 </mapper>

@@ -24,6 +24,18 @@ public class EarthquakeServiceImpl implements EarthquakeService {
     public EarthquakeDao earthquakeDao;
     private static final double EARTH_RADIUS = 6378.137;
 
+    public int deleteByPrimaryKey(String id) {
+        return earthquakeDao.deleteByPrimaryKey(id);
+    }
+
+    public int insert(Earthquake record) {
+        return earthquakeDao.insert(record);
+    }
+
+    public int update(Earthquake record) {
+        return earthquakeDao.update(record);
+    }
+
     public Earthquake selectById(String id) {
         return earthquakeDao.selectById(id);
     }
@@ -32,8 +44,8 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         return earthquakeDao.queryAll();
     }
 
-    public int deleteById(String id) {
-        return earthquakeDao.deleteByPrimaryKey(id);
+    public List<Earthquake> selectByParams(Earthquake record) {
+        return earthquakeDao.selectByParams(record);
     }
 
     public List<Earthquake> selectByWord(String word) {

@@ -49,6 +49,7 @@ public class ArticleController {
         modelAndView.addObject("nextArticle",nextArticle);
         return modelAndView;
     }
+
     @RequestMapping("/admin/article/detail")
     public ModelAndView adminArticleDetail(HttpServletRequest request){
         int id=Integer.parseInt(request.getParameter("id"));

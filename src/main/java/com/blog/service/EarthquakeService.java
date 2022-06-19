@@ -6,11 +6,17 @@ import com.blog.domain.Earthquake;
 
 public interface EarthquakeService {
 
+    int deleteByPrimaryKey(String id);
+
+    int insert(Earthquake record);
+
+    int update(Earthquake record);
+
     Earthquake selectById(String id);
 
     List<Earthquake> queryAll();
 
-    int deleteById(String id);
+    List<Earthquake> selectByParams(Earthquake record);
 
     List<Earthquake> selectByWord(String word);
 
