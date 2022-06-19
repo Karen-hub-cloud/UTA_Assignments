@@ -49,6 +49,25 @@
 
         <a class="btn btn-outline-danger btn-sm" href="/admin/logout" role="button">exit</a>
     </div>
+    <header id="header">
+        <nav>
+            <div class="my-info" onmouseover="hiddeewm()" onmouseout="hiddeewm()">
+                <figure></figure>
+                <span>UTA Assignment</span>
+                <div id="hiddenewm" hidden="true" >
+                    <img src="/img/me.jpg" width="200px" height="200px" >
+                    <p></p>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="bg" >
+        <p>
+            1001989820
+            <br>
+            Kun Tian
+        </p>
+    </div>
 </nav>
 <br/>
 <table class="table table-sm">

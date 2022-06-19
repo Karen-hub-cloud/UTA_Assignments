@@ -17,6 +17,10 @@ public class EarthquakeController {
     @Autowired
     EarthquakeService earthquakeService;
 
+    @RequestMapping("/earthquake")
+    public String about(){
+        return "admin/earthquake";
+    }
 
     @RequestMapping("/searchLargestN")
     public ModelAndView searchLargestN(@RequestParam(required=true, defaultValue="1") Integer n){
