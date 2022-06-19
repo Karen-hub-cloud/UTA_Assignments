@@ -40,11 +40,11 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         return earthquakeDao.selectByWord(word);
     }
 
-    public List<Earthquake> searchLargestN(int n) {
-        return earthquakeDao.searchLargestN(n);
+    public List<Earthquake> searchLargestN(int n, String net, double min, double max) {
+        return earthquakeDao.searchLargestN(n, net, min, max);
     }
 
-    public List<Earthquake> searchAroundPlace(int distance, double currLongitude, double currLatitude) {
+    public List<Earthquake> searchAroundPlace(double distance, double currLongitude, double currLatitude) {
         List<Earthquake> earthquakeList = earthquakeDao.queryAll();
         if (earthquakeList == null) {
             return new ArrayList<Earthquake>();
@@ -53,26 +53,19 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         for (Earthquake earthquake : earthquakeList) {
             Double latitude =  earthquake.getLatitude();
             Double longitude = earthquake.getLongitude();
-            if(getDistance(currLongitude, currLatitude, longitude, latitude) < 500){
+            if(getDistance(currLongitude, currLatitude, longitude, latitude) < distance){
                 result.add(earthquake);
             }
         }
         return result;
     }
 
-    public List<Earthquake> searchScale(String magType, double mag, String startTime, String endTime) {
-        List<Earthquake> earthquakeList = earthquakeDao.countScale(magType, mag);
+    public List<Earthquake> searchScale(String time) {
+        List<Earthquake> earthquakeList = earthquakeDao.countScale(time);
         if (earthquakeList == null) {
             return new ArrayList<Earthquake>();
         }
-        List<Earthquake> result =  new ArrayList<Earthquake>();
-        for (Earthquake earthquake : earthquakeList) {
-            if (currGreatPar(earthquake.getTime(),startTime) &&
-            currGreatPar(endTime, earthquake.getTime())){
-                result.add(earthquake);
-            }
-        }
-        return result;
+        return earthquakeList;
     }
 
     public List<Integer> countScale(String magType, double minMag, double maxMag, int recent) {
@@ -84,11 +77,13 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         return slot;
     }
 
-    public boolean compareTwoPlace(int distance, double longitude1,
+    public List<Earthquake> compareTwoPlace(double longitude1,
             double latitude1, double longitude2, double latitude2){
-        int a = searchAroundPlace(distance, longitude1, latitude1).size();
-        int b = searchAroundPlace(distance, longitude2, latitude2).size();
-        return a > b;
+        double distance = getDistance(longitude1,latitude1,longitude2,latitude2);
+        List<Earthquake> finalEarthquake = new ArrayList<Earthquake>();
+        finalEarthquake.addAll(searchAroundPlace(distance, longitude1, latitude1));
+        finalEarthquake.addAll(searchAroundPlace(distance, longitude2, latitude2));
+        return finalEarthquake;
     }
 
     public Earthquake getLargestEarthquake (int distance, double longitude1,
@@ -117,6 +112,14 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         return false;
     }
 
+    /**
+     * 获取距离
+     * @param longitude1
+     * @param latitude1
+     * @param longitude2
+     * @param latitude2
+     * @return
+     */
     private double getDistance(double longitude1, double latitude1, double longitude2, double latitude2) {
         // 纬度
         double lat1 = Math.toRadians(latitude1);

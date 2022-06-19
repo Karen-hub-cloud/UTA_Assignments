@@ -17,12 +17,21 @@ public class EarthquakeController {
     @Autowired
     EarthquakeService earthquakeService;
 
+    @RequestMapping("/earthquake")
+    public String about(){
+        return "admin/earthquake";
+    }
 
+    /**
+     * 11 改造
+     */
     @RequestMapping("/searchLargestN")
-    public ModelAndView searchLargestN(@RequestParam(required=true, defaultValue="1") Integer n){
+    public ModelAndView searchLargestN(@RequestParam(required=true) String net,
+            @RequestParam(required=true) double min,
+            @RequestParam(required=true) double max){
 
         ModelAndView modelAndView=new ModelAndView("admin/earthquake_list");
-        List<Earthquake> earthquakeList = earthquakeService.searchLargestN(n);
+        List<Earthquake> earthquakeList = earthquakeService.searchLargestN(5, net, min, max);
         modelAndView.addObject("earthquakeList", earthquakeList);
         return modelAndView;
     }
@@ -38,14 +47,13 @@ public class EarthquakeController {
         return modelAndView;
     }
 
+    /**
+     * 12 改造
+     */
     @RequestMapping("/searchScale")
-    public ModelAndView searchScale(@RequestParam(required=true) String magType,
-            @RequestParam(required=true) Double mag,
-            @RequestParam(required=true) String startTime,
-            @RequestParam(required = true) String endTime){
+    public ModelAndView searchScale(@RequestParam(required=true) String time){
         ModelAndView modelAndView=new ModelAndView("admin/earthquake_list");
-        List<Earthquake> earthquakeList = earthquakeService.searchScale(magType, mag, startTime, endTime);
-
+        List<Earthquake> earthquakeList = earthquakeService.searchScale(time);
         modelAndView.addObject("earthquakeList", earthquakeList);
         return modelAndView;
     }
@@ -61,19 +69,23 @@ public class EarthquakeController {
         return modelAndView;
     }
 
+    /**
+     * 10 改造
+     */
     @RequestMapping("/compareTwoPlace")
-    public ModelAndView compareTwoPlace(@RequestParam(required=true) Integer distance,
+    public ModelAndView compareTwoPlace(
             @RequestParam(required=true) Double longitude1,
             @RequestParam(required=true) Double latitude1,
             @RequestParam(required=true) Double longitude2,
-            @RequestParam(required=true) Double latitude2,
-            @RequestParam(required = true) Integer recent){
-        ModelAndView modelAndView=new ModelAndView("admin/compareTwoPlace");
-        Boolean b = earthquakeService.compareTwoPlace(distance, longitude1,
+            @RequestParam(required=true) Double latitude2){
+        ModelAndView modelAndView=new ModelAndView("admin/earthquake_list");
+
+        List<Earthquake> earthquakeList = earthquakeService.compareTwoPlace(longitude1,
                 latitude1, longitude2, latitude2);
-        modelAndView.addObject("b", b);
+        modelAndView.addObject("earthquakeList", earthquakeList);
         return modelAndView;
     }
+
 
     @RequestMapping("/getLargestEarthquake")
     public ModelAndView getLargestEarthquake(@RequestParam(required=true) Integer distance,

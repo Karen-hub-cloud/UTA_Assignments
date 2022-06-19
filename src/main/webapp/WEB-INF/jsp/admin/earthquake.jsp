@@ -42,85 +42,29 @@
             </li>
 
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="/admin/dataDemo/search" method="GET">
-            <input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="word">
-            <button class="btn btn-outline-success my-2 my-sm-0 btn-sm" type="submit">search</button>
-        </form>
 
         <a class="btn btn-outline-danger btn-sm" href="/admin/logout" role="button">exit</a>
     </div>
-    <header id="header">
-        <nav>
-            <div class="my-info" onmouseover="hiddeewm()" onmouseout="hiddeewm()">
-                <figure></figure>
-                <span>星·光</span>
-                <div id="hiddenewm" hidden="true" >
-                    <img src="/img/me.jpg" width="200px" height="200px" >
-                    <p></p>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div id="bg" >
-        <p>
-            1001989820
-            <br>
-            Kun Tian
-        </p>
-    </div>
 </nav>
+<form class="form-inline my-2 my-lg-0" action="/blogwar/compareTwoPlace" method="GET">
+    longitude1<input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="longitude1">
+    latitude1<input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="latitude1">
+    longitude2<input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="longitude2">
+    latitude2<input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="latitude2">
+    <button class="btn btn-outline-success my-2 my-sm-0 btn-sm" type="submit">search</button>
+</form>
+<form class="form-inline my-2 my-lg-0" action="/blogwar/searchLargestN" method="GET">
+    net<input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="net">
+    min<input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="min">
+    max<input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="max">
+    <button class="btn btn-outline-success my-2 my-sm-0 btn-sm" type="submit">search</button>
+</form>
+
+<form class="form-inline my-2 my-lg-0" action="/blogwar/searchScale" method="GET">
+    time(eg:6-12)<input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="time">
+    <button class="btn btn-outline-success my-2 my-sm-0 btn-sm" type="submit">search</button>
+</form>
 <br/>
-<table class="table table-sm">
-    <thead>
-    <tr class="table-info">
-        <th>time</th>
-        <th>latitude</th>
-        <th>longitude</th>
-        <th>depth</th>
-        <th>mag</th>
-        <th>magType</th>
-        <th>net</th>
-        <th>id</th>
-        <th>place</th>
-        <th>horizontalError</th>
-        <th>magError</th>
-        <th>magNst</th>
-        <th>locationSource</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${earthquakeList}" var="earthquake">
-    <tr>
-        <td>${earthquake.time}</td>
-        <td>${earthquake.latitude}</td>
-        <td>${earthquake.longitude}</td>
-        <td>${earthquake.depth}</td>
-        <td>${earthquake.mag}</td>
-        <td>${earthquake.magType}</td>
-        <td>${earthquake.net}</td>
-        <td>${earthquake.id}</td>
-        <td>${earthquake.place}</td>
-        <td>${earthquake.horizontalError}</td>
-        <td>${earthquake.magError}</td>
-        <td>${earthquake.magNst}</td>
-        <td>${earthquake.locationSource}</td>
-    </tr>
-    </c:forEach>
-    </tbody>
-</table>
-<nav aria-label="Page navigation example" style="position: absolute;bottom: 10px;left: 42%">
-    <ul class="pagination justify-content-center">
-        <li class="page-item  <c:if test="${pageInfo.pageNum==1}">disabled</c:if> ">
-            <a class="page-link" href="/admin/dataDemo/list?page=1" >&laquo;</a>
-        </li>
-        <c:forEach begin="1" end="${pageInfo.pages}" step="1" var="pageNo">
-            <li class="page-item <c:if test="${pageInfo.pageNum==pageNo}">active</c:if>"><a class="page-link" href="/admin/dataDemo/list?page=${pageNo}">${pageNo}</a></li>
-        </c:forEach>
-        <li class="page-item  <c:if test="${pageInfo.pageNum==pageInfo.pages}">disabled</c:if> ">
-            <a class="page-link" href="/admin/dataDemo/list?page=${pageInfo.pages}">&raquo;</a>
-        </li>
-    </ul>
-</nav>
 <script src="/js/jquery-3.2.1.min.js"></script>
 <script>
     function fullScreen(title,url){

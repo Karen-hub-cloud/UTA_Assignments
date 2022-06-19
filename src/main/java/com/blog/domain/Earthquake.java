@@ -16,19 +16,10 @@ public class Earthquake {
     private Double depth;
     private Double mag;
     private String magType;
-    private Double nst;
-    private Double gap;
-    private Double dmin;
-    private Double rms;
     private String net;
-    private String updated;
     private String place;
-    private String type;
     private Double horizontalError;
-    private Double depthError;
     private Double magError;
     private Double magNst;
-    private String status;
     private String locationSource;
-    private String magSource;
 }

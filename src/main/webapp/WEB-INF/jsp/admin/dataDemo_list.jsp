@@ -14,6 +14,27 @@
     <script src="/js/layer.js"></script>
 </head>
 <body>
+<div>
+    <header id="header">
+        <nav>
+            <div class="my-info" onmouseover="hiddeewm()" onmouseout="hiddeewm()">
+                <figure></figure>
+                <span>UTA</span>
+                <div id="hiddenewm" hidden="true" >
+                    <img src="/img/me.jpg" width="200px" height="200px" >
+                    <p></p>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="bg" >
+        <p>
+            1001989820
+            <br>
+            Kun Tian
+        </p>
+    </div>
+</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" >
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

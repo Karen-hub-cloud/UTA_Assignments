@@ -14,15 +14,15 @@ public interface EarthquakeService {
 
     List<Earthquake> selectByWord(String word);
 
-    List<Earthquake> searchLargestN(int n);
+    List<Earthquake> searchLargestN(int n, String net, double min, double max);
 
-    List<Earthquake> searchAroundPlace(int distance, double currLongitude, double currLatitude);
+    List<Earthquake> searchAroundPlace(double distance, double currLongitude, double currLatitude);
 
-    List<Earthquake> searchScale(String magType, double mag, String startTime, String endTime);
+    List<Earthquake> searchScale(String time);
 
     List<Integer> countScale(String magType, double minMag, double maxMag, int recent);
 
-    boolean compareTwoPlace(int distance, double longitude1,
+    List<Earthquake> compareTwoPlace(double longitude1,
             double latitude1, double longitude2, double latitude2);
 
     Earthquake getLargestEarthquake (int distance, double longitude1,

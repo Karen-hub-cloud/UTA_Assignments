@@ -9,21 +9,12 @@
     <result column="depth" property="depth" jdbcType="DOUBLE" />
     <result column="mag" property="mag" jdbcType="DOUBLE" />
     <result column="magType" property="magType" jdbcType="VARCHAR" />
-    <result column="nst" property="nst" jdbcType="DOUBLE" />
-    <result column="gap" property="gap" jdbcType="DOUBLE" />
-    <result column="dmin" property="dmin" jdbcType="DOUBLE" />
-    <result column="rms" property="rms" jdbcType="DOUBLE" />
     <result column="net" property="net" jdbcType="VARCHAR" />
-    <result column="updated" property="updated" jdbcType="VARCHAR" />
     <result column="place" property="place" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="horizontalError" property="horizontalError" jdbcType="DOUBLE" />
-    <result column="depthError" property="depthError" jdbcType="DOUBLE" />
     <result column="magError" property="magError" jdbcType="DOUBLE" />
     <result column="magNst" property="magNst" jdbcType="DOUBLE" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="locationSource" property="locationSource" jdbcType="VARCHAR" />
-    <result column="magSource" property="magSource" jdbcType="VARCHAR" />
   </resultMap>
 
   <select id="selectByWord" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -46,7 +37,7 @@
   </select>
 
   <select id="searchLargestN" resultMap="BaseResultMap">
-        SELECT * FROM earthquake ORDER BY mag DESC LIMIT #{n}
+        SELECT * FROM earthquake where net = #{net} and mag between #{min} and #{max} ORDER BY mag DESC LIMIT #{n}
   </select>
 
   <select id="searchByPlace" resultMap="BaseResultMap">
@@ -55,7 +46,7 @@
   </select>
 
   <select id="countScale" resultMap="BaseResultMap">
-        SELECT * FROM earthquake WHERE magType= #{magType} AND MAG>= #{mag}
+        SELECT * FROM earthquake WHERE time LIKE CONCAT(CONCAT('%', #{time}), '%') ORDER BY magNst DESC LIMIT 1
   </select>
 
   <select id="recentlyQuakes" resultMap="BaseResultMap">
