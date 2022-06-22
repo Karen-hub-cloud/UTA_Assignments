@@ -8,11 +8,19 @@ public interface EarthquakeService {
 
     int deleteByPrimaryKey(String id);
 
+    int deleteCache(String id);
+
     int insert(Earthquake record);
+
+    int insertCache(Earthquake record);
 
     int update(Earthquake record);
 
+    int updataCache(Earthquake record);
+
     Earthquake selectById(String id);
+
+    Earthquake selectCacheById(String id);
 
     List<Earthquake> queryAll();
 

@@ -1,6 +1,8 @@
 package com.blog.domain;
 
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 /**
@@ -8,7 +10,7 @@ import lombok.Data;
  * Created on 2022-06-12
  */
 @Data
-public class Earthquake {
+public class Earthquake  implements Serializable {
     private String id;
     private String time;
     private Double latitude;

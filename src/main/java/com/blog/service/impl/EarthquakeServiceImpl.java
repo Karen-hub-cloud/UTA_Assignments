@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.blog.dao.EarthquakeDao;
 import com.blog.domain.Earthquake;
 import com.blog.service.EarthquakeService;
+import com.blog.service.RedisService;
 
 /**
  * @author tiankun <tiankun@kuaishou.com>
@@ -22,40 +23,81 @@ public class EarthquakeServiceImpl implements EarthquakeService {
 
     @Autowired
     public EarthquakeDao earthquakeDao;
+
+    @Autowired
+    public RedisService redisService;
+
     private static final double EARTH_RADIUS = 6378.137;
 
+    @Override
     public int deleteByPrimaryKey(String id) {
         return earthquakeDao.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public int deleteCache(String id) {
+        redisService.del(id);
+        return 1;
+    }
+
+    @Override
     public int insert(Earthquake record) {
         return earthquakeDao.insert(record);
     }
 
+    @Override
+    public int insertCache(Earthquake record) {
+        redisService.put(record.getId(),record);
+        return 1;
+    }
+
+    @Override
     public int update(Earthquake record) {
         return earthquakeDao.update(record);
     }
 
+    @Override
+    public int updataCache(Earthquake record) {
+        if(redisService.hasKey(record.getId())){
+            redisService.del(record.getId());
+            redisService.put(record.getId(), record);
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
     public Earthquake selectById(String id) {
         return earthquakeDao.selectById(id);
     }
 
+    @Override
+    public Earthquake selectCacheById(String id) {
+        System.out.println("cache返回结果" + redisService.get(id));
+        return (Earthquake) redisService.get(id);
+    }
+
+    @Override
     public List<Earthquake> queryAll() {
         return earthquakeDao.queryAll();
     }
 
+    @Override
     public List<Earthquake> selectByParams(Earthquake record) {
         return earthquakeDao.selectByParams(record);
     }
 
+    @Override
     public List<Earthquake> selectByWord(String word) {
         return earthquakeDao.selectByWord(word);
     }
 
+    @Override
     public List<Earthquake> searchLargestN(int n) {
         return earthquakeDao.searchLargestN(n);
     }
 
+    @Override
     public List<Earthquake> searchAroundPlace(int distance, double currLongitude, double currLatitude) {
         List<Earthquake> earthquakeList = earthquakeDao.queryAll();
         if (earthquakeList == null) {
@@ -72,6 +114,7 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         return result;
     }
 
+    @Override
     public List<Earthquake> searchScale(String magType, double mag, String startTime, String endTime) {
         List<Earthquake> earthquakeList = earthquakeDao.countScale(magType, mag);
         if (earthquakeList == null) {
@@ -87,6 +130,7 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         return result;
     }
 
+    @Override
     public List<Integer> countScale(String magType, double minMag, double maxMag, int recent) {
         List<Integer> slot = new ArrayList<Integer>();
         slot.add(earthquakeDao.recentlyQuakes(magType, 1, 2, recent));
@@ -96,6 +140,7 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         return slot;
     }
 
+    @Override
     public boolean compareTwoPlace(int distance, double longitude1,
             double latitude1, double longitude2, double latitude2){
         int a = searchAroundPlace(distance, longitude1, latitude1).size();
@@ -103,6 +148,7 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         return a > b;
     }
 
+    @Override
     public Earthquake getLargestEarthquake (int distance, double longitude1,
             double latitude1) {
         List<Earthquake> earthquakeList = searchAroundPlace(distance, longitude1, latitude1);

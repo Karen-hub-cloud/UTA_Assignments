@@ -61,8 +61,11 @@
 
         </ul>
         <form class="form-inline my-2 my-lg-0" action="/quiz/assignment3/search" method="GET">
-            <input class="form-control mr-sm-2" type="id" placeholder="search" aria-label="Search" name="word">
+            <input class="form-control mr-sm-2" type="id" placeholder="imput id" aria-label="Search" name="word">
             <button class="btn btn-outline-success my-2 my-sm-0 btn-sm" type="submit">search RDB</button>
+        </form>
+        <form class="form-inline my-2 my-lg-0" action="/quiz/assignment3/searchCache" method="GET">
+            <input class="form-control mr-sm-2" type="id" placeholder="imput id" aria-label="Search" name="word">
             <button class="btn btn-outline-success my-2 my-sm-0 btn-sm" type="submit">search Cache</button>
         </form>
 
@@ -129,8 +132,8 @@
             <td>${earthquake.magSource}</td>
             <td><button type="button" class="btn btn-outline-primary btn-sm" onclick="fullScreen('《${earthquake.id}》|edit','/quiz/assignment3/edit?id=${earthquake.id}')">edit</button></td>
             <td><button type="button" class="btn btn-outline-danger btn-sm" onclick="ifdelete('${earthquake.id}') ">delete</button></td>
-            <td><button type="button" class="btn btn-outline-primary btn-sm" onclick="fullScreen('《${earthquake.id}》|edit','/quiz/assignment3/edit?id=${earthquake.id}')">edit</button></td>
-            <td><button type="button" class="btn btn-outline-danger btn-sm" onclick="ifdelete('${earthquake.id}') ">delete</button></td>
+            <td><button type="button" class="btn btn-outline-primary btn-sm" onclick="fullScreen('add','/quiz/assignment3/addCache/do?id=${earthquake.id}')">add to Cache</button></td>
+            <td><button type="button" class="btn btn-outline-danger btn-sm" onclick="ifdeleteCache('${earthquake.id}') ">delete</button></td>
         </tr>
     </c:forEach>
     </tbody>
@@ -151,6 +154,17 @@
 <script src="/../../quiz/static/js/jquery-3.2.1.min.js"></script>
 <script>
     function fullScreen(title,url){
+        var index = layer.open({
+            type: 2,
+            title: title,
+            area: ['70%', '70%'],
+            content: url,
+            maxmin: true
+        });
+        layer.full(index);
+    }
+
+    function fullScreenCache(title,url){
         var index = layer.open({
             type: 2,
             title: title,
@@ -186,6 +200,37 @@
         }, function(){
 
         });
+
+
+    }
+
+    function ifdelete(id) {
+        layer.confirm('delete?', {
+            btn: ['yes','no'] //按钮
+        }, function(){
+            $.ajax({
+                type: 'POST',
+                url: '/quiz/assignment3/delCache',
+                datatype:'json',
+                data:{"id" : id},
+                success: function(data){
+                    if(data['stateCode']==1){
+                        layer.msg('delete success!',{icon:1,time:1000});
+                        setTimeout("window.location.reload()",1000);
+                    }
+                    else {
+                        layer.msg('delete failed',{icon:5,time:1000});
+                    }
+                },
+                error:function(data) {
+                    console.log('error...');
+                },
+            });
+        }, function(){
+
+        });
+
+
     }
 
 </script>

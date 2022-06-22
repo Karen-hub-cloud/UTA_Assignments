@@ -48,6 +48,13 @@ public class Assignment3Controller {
         return modelAndView;
     }
 
+    @RequestMapping("/assignment3/addCache")
+    public ModelAndView articleAddCache() {
+
+        ModelAndView modelAndView = new ModelAndView("/admin/assignment3_addCache");
+        return modelAndView;
+    }
+
     @RequestMapping("/assignment3/add/do")
     public String articleAddDo(HttpServletRequest request, RedirectAttributes redirectAttributes) {
         Earthquake earthquake = new Earthquake();
@@ -63,6 +70,13 @@ public class Assignment3Controller {
         }
     }
 
+    @RequestMapping("/assignment3/addCache/do")
+    public String articleAddCacheDo(HttpServletRequest request) {
+        Earthquake earthquake = earthquakeService.selectById(request.getParameter("id"));
+        earthquakeService.insertCache(earthquake);
+        return "redirect:/assignment3/list";
+    }
+
     @RequestMapping(value = "/assignment3/search")
     public ModelAndView articleSearch(HttpServletRequest request) {
         long startTime = System.currentTimeMillis();
@@ -75,10 +89,30 @@ public class Assignment3Controller {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/assignment3/searchCache")
+    public ModelAndView articleSearchCache(HttpServletRequest request) {
+        long startTime = System.currentTimeMillis();
+        String word = request.getParameter("word");
+        List<Earthquake> earthquakeList = Arrays.asList(earthquakeService.selectCacheById(word));
+        long endTime = System.currentTimeMillis();
+        ModelAndView modelAndView = new ModelAndView("/admin/assignment3_list");
+        modelAndView.addObject("earthquakeList", earthquakeList);
+        modelAndView.addObject("time", endTime-startTime);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/assignment3/edit")
     public ModelAndView articleEdit(HttpServletRequest request) {
         Earthquake earthquake = earthquakeService.selectById(request.getParameter("id"));
         ModelAndView modelAndView = new ModelAndView("/admin/assignment3_edit");
+        modelAndView.addObject("earthquake", earthquake);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/assignment3/editCache")
+    public ModelAndView articleEditCache(HttpServletRequest request) {
+        Earthquake earthquake = earthquakeService.selectCacheById(request.getParameter("id"));
+        ModelAndView modelAndView = new ModelAndView("/admin/assignment3_editCache");
         modelAndView.addObject("earthquake", earthquake);
         return modelAndView;
     }
@@ -101,10 +135,41 @@ public class Assignment3Controller {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/assignment3/editCache/do")
+    public ModelAndView articleEditCacheDo(HttpServletRequest request) {
+        long startTime = System.currentTimeMillis();
+        Earthquake earthquake = new Earthquake();
+        earthquake.setId(request.getParameter("id"));
+        earthquake.setMag(Double.valueOf(request.getParameter("mag")));
+        earthquake.setMagType(request.getParameter("magType"));
+        ModelAndView modelAndView = new ModelAndView("/admin/assignment3_editCache");
+        if (earthquakeService.updataCache(earthquake) == 1) {
+            long endTime = System.currentTimeMillis();
+            modelAndView.addObject("succ", "update success！");
+            modelAndView.addObject("time", endTime - startTime);
+        } else {
+            modelAndView.addObject("error", "update error！");
+        }
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/assignment3/del", method = RequestMethod.POST)
     public @ResponseBody Object loginCheck(HttpServletRequest request) {
         String id = request.getParameter("id");
         int result = earthquakeService.deleteByPrimaryKey(id);
+        HashMap<String, String> res = new HashMap<String, String>();
+        if (result == 1) {
+            res.put("stateCode", "1");
+        } else {
+            res.put("stateCode", "0");
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/assignment3/delCache", method = RequestMethod.POST)
+    public @ResponseBody Object loginCheckCache(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        int result = earthquakeService.deleteCache(id);
         HashMap<String, String> res = new HashMap<String, String>();
         if (result == 1) {
             res.put("stateCode", "1");
