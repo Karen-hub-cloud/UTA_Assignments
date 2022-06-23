@@ -2,6 +2,7 @@ package com.blog.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -19,11 +20,15 @@ public interface EarthquakeDao {
 
     int update(Earthquake record);
 
-    Earthquake selectById(String id);
+    Earthquake selectById(String number);
 
     List<Earthquake> queryAll();
 
-    List<Earthquake> searchLargestN(int n);
+    List<Earthquake> randomN(int n);
+
+    List<Earthquake> searchRange(@Param("min") int min, @Param("max") int max);
+
+   /* List<Earthquake> searchLargestN(int n);
 
     List<Earthquake> selectByParams(Earthquake record);
 
@@ -33,5 +38,5 @@ public interface EarthquakeDao {
 
     List<Earthquake> countScale(String magType, double mag);
 
-    int recentlyQuakes(String magType, double minMag, double maxMag, int recent);
+    int recentlyQuakes(String magType, double minMag, double maxMag, int recent);*/
 }

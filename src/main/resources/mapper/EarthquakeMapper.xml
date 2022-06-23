@@ -2,76 +2,79 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.blog.dao.EarthquakeDao" >
   <resultMap id="BaseResultMap" type="com.blog.domain.Earthquake" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="time" property="time" jdbcType="VARCHAR" />
+    <id column="number" property="number" jdbcType="VARCHAR" />
+    <result column="volcano_name" property="volcanoName" jdbcType="VARCHAR" />
     <result column="latitude" property="latitude" jdbcType="DOUBLE" />
     <result column="longitude" property="longitude" jdbcType="DOUBLE" />
-    <result column="depth" property="depth" jdbcType="DOUBLE" />
-    <result column="mag" property="mag" jdbcType="DOUBLE" />
-    <result column="magType" property="magType" jdbcType="VARCHAR" />
-    <result column="nst" property="nst" jdbcType="DOUBLE" />
-    <result column="gap" property="gap" jdbcType="DOUBLE" />
-    <result column="dmin" property="dmin" jdbcType="DOUBLE" />
-    <result column="rms" property="rms" jdbcType="DOUBLE" />
-    <result column="net" property="net" jdbcType="VARCHAR" />
-    <result column="updated" property="updated" jdbcType="VARCHAR" />
-    <result column="place" property="place" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="horizontalError" property="horizontalError" jdbcType="DOUBLE" />
-    <result column="depthError" property="depthError" jdbcType="DOUBLE" />
-    <result column="magError" property="magError" jdbcType="DOUBLE" />
-    <result column="magNst" property="magNst" jdbcType="DOUBLE" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="locationSource" property="locationSource" jdbcType="VARCHAR" />
-    <result column="magSource" property="magSource" jdbcType="VARCHAR" />
+    <result column="elev" property="elev" jdbcType="DOUBLE" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
   </resultMap>
 
   <insert id="insert" parameterType="com.blog.domain.Earthquake" >
-    insert into earthquake (time,latitude,longitude,depth,mag,magType,nst,rms,net,
-                            updated,place,type,horizontalError,depthError,magError,magNst,status,locationSource,magSource)
-    values (#{time}, #{latitude},
-            #{longitude}, #{depth},
-            #{mag}, #{magType},
-            #{nst}, #{rms},
-            #{net}, #{updated},
-            #{place}, #{type},
-            #{horizontalError}, #{depthError},
-            #{magError}, #{magNst},
-            #{status}, #{locationSource},
-            #{magSource})
+    insert into v (number,volcano_name,country,region,latitude,longitude,elev)
+    values (#{number}, #{volcanoName},
+            #{country}, #{region},
+            #{latitude}, #{longitude},
+            #{elev})
   </insert>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from earthquake
-    where id = #{id}
+    delete from v
+    where number = #{id}
   </delete>
 
   <update id="update" parameterType="com.blog.domain.Earthquake" >
-    update earthquake
+    update v
     <set >
-      <if test="magType != null" >
-        magType = #{magType},
+      <if test="volcanoName != null" >
+        volcano_name = #{volcanoName},
       </if>
-      <if test="mag != null" >
-        mag = #{mag},
+      <if test="latitude != null" >
+        latitude = #{latitude},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude},
+      </if>
+      <if test="elev != null" >
+        elev = #{elev},
+      </if>
+      <if test="country != null" >
+        country = #{country},
+      </if>
+      <if test="region != null" >
+        region = #{region},
       </if>
     </set>
-    where id = #{id}
+    where number = #{number}
   </update>
 
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     *
-    from earthquake
-    where id = #{id}
+    from v
+    where number = #{number}
   </select>
 
   <select id="queryAll" resultMap="BaseResultMap" >
     select *
-    from earthquake
+    from v
   </select>
 
-  <select id="selectByWord" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="randomN" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select *
+    from v
+    order by rand() limit #{n}
+  </select>
+
+  <select id="searchRange" resultMap="BaseResultMap">
+    select v.*
+    from v
+    left join vindex ON sequence > #{min} AND sequence &lt; #{max}
+    where v.number = vindex.number
+  </select>
+
+ <!-- <select id="selectByWord" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
       *
     from earthquake
@@ -79,18 +82,18 @@
        or longitude LIKE CONCAT(CONCAT('%', #{word}), '%') or mag LIKE CONCAT(CONCAT('%', #{word}), '%')
         or magType LIKE CONCAT(CONCAT('%', #{word}), '%') or net LIKE CONCAT(CONCAT('%', #{word}), '%')
        or place LIKE CONCAT(CONCAT('%', #{word}), '%')
-  </select>
+  </select>-->
 
-  <select id="searchLargestN" resultMap="BaseResultMap">
-        SELECT * FROM earthquake ORDER BY mag DESC LIMIT #{n}
+ <!-- <select id="searchLargestN" resultMap="BaseResultMap">
+        SELECT earthquake FROM earthquake ORDER BY mag DESC LIMIT #{n}
   </select>
 
   <select id="searchByPlace" resultMap="BaseResultMap">
-        SELECT * FROM earthquake WHERE place
+        SELECT earthquake FROM earthquake WHERE place
         LIKE CONCAT(CONCAT('%', #{word}), '%')
-  </select>
+  </select>-->
 
-  <select id="selectByParams" resultMap="BaseResultMap" parameterType="com.blog.domain.Earthquake" >
+  <!--<select id="selectByParams" resultMap="BaseResultMap" parameterType="com.blog.domain.Earthquake" >
     select
       *
     from earthquake
@@ -123,5 +126,5 @@
   <select id="recentlyQuakes" resultMap="BaseResultMap">
     SELECT COUNT(*) FROM earthquake WHERE magType= #{magType} AND MAG >= #{minMag} AND Mag &lt;= #{maxMag}
     AND DATE_SUB(CURDATE(), INTERVAL #{recent} DAY) &lt;= date(time)
-  </select>
+  </select>-->
 </mapper>

@@ -50,7 +50,7 @@ public class EarthquakeServiceImpl implements EarthquakeService {
 
     @Override
     public int insertCache(Earthquake record) {
-        redisService.put(record.getId(),record);
+        redisService.put(record.getNumber(),record);
         return 1;
     }
 
@@ -61,9 +61,9 @@ public class EarthquakeServiceImpl implements EarthquakeService {
 
     @Override
     public int updataCache(Earthquake record) {
-        if(redisService.hasKey(record.getId())){
-            redisService.del(record.getId());
-            redisService.put(record.getId(), record);
+        if(redisService.hasKey(record.getNumber())){
+            redisService.del(record.getNumber());
+            redisService.put(record.getNumber(), record);
             return 1;
         }
         return 0;
@@ -86,8 +86,18 @@ public class EarthquakeServiceImpl implements EarthquakeService {
     }
 
     @Override
+    public List<Earthquake> randomN(int n) {
+        return earthquakeDao.randomN(n);
+    }
+
+    @Override
+    public List<Earthquake> searchRange(int minSeq, int maxSeq){
+        return earthquakeDao.searchRange(minSeq,maxSeq);
+    }
+
+    @Override
     public List<Earthquake> queryAllCache() {
-        Set<String> keys = earthquakeDao.queryAll().stream().map(e->e.getId()).collect(Collectors.toSet());
+        Set<String> keys = earthquakeDao.queryAll().stream().map(e->e.getNumber()).collect(Collectors.toSet());
         return redisService.getAll(keys)
                 .values()
                 .stream()
@@ -95,7 +105,7 @@ public class EarthquakeServiceImpl implements EarthquakeService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+    /*@Override
     public List<Earthquake> selectByParams(Earthquake record) {
         return earthquakeDao.selectByParams(record);
     }
@@ -109,41 +119,41 @@ public class EarthquakeServiceImpl implements EarthquakeService {
     public List<Earthquake> searchLargestN(int n) {
         return earthquakeDao.searchLargestN(n);
     }
+*/
+//    @Override
+//    public List<Earthquake> searchAroundPlace(int distance, double currLongitude, double currLatitude) {
+//        List<Earthquake> earthquakeList = earthquakeDao.queryAll();
+//        if (earthquakeList == null) {
+//            return new ArrayList<Earthquake>();
+//        }
+//        List<Earthquake> result =  new ArrayList<Earthquake>();
+//        for (Earthquake earthquake : earthquakeList) {
+//            Double latitude =  earthquake.getLatitude();
+//            Double longitude = earthquake.getLongitude();
+//            if(getDistance(currLongitude, currLatitude, longitude, latitude) < 500){
+//                result.add(earthquake);
+//            }
+//        }
+//        return result;
+//    }
 
-    @Override
-    public List<Earthquake> searchAroundPlace(int distance, double currLongitude, double currLatitude) {
-        List<Earthquake> earthquakeList = earthquakeDao.queryAll();
-        if (earthquakeList == null) {
-            return new ArrayList<Earthquake>();
-        }
-        List<Earthquake> result =  new ArrayList<Earthquake>();
-        for (Earthquake earthquake : earthquakeList) {
-            Double latitude =  earthquake.getLatitude();
-            Double longitude = earthquake.getLongitude();
-            if(getDistance(currLongitude, currLatitude, longitude, latitude) < 500){
-                result.add(earthquake);
-            }
-        }
-        return result;
-    }
+//    @Override
+//    public List<Earthquake> searchScale(String magType, double mag, String startTime, String endTime) {
+//        List<Earthquake> earthquakeList = earthquakeDao.countScale(magType, mag);
+//        if (earthquakeList == null) {
+//            return new ArrayList<Earthquake>();
+//        }
+//        List<Earthquake> result =  new ArrayList<Earthquake>();
+//        for (Earthquake earthquake : earthquakeList) {
+//            if (currGreatPar(earthquake.getTime(),startTime) &&
+//            currGreatPar(endTime, earthquake.getTime())){
+//                result.add(earthquake);
+//            }
+//        }
+//        return result;
+//    }
 
-    @Override
-    public List<Earthquake> searchScale(String magType, double mag, String startTime, String endTime) {
-        List<Earthquake> earthquakeList = earthquakeDao.countScale(magType, mag);
-        if (earthquakeList == null) {
-            return new ArrayList<Earthquake>();
-        }
-        List<Earthquake> result =  new ArrayList<Earthquake>();
-        for (Earthquake earthquake : earthquakeList) {
-            if (currGreatPar(earthquake.getTime(),startTime) &&
-            currGreatPar(endTime, earthquake.getTime())){
-                result.add(earthquake);
-            }
-        }
-        return result;
-    }
-
-    @Override
+   /* @Override
     public List<Integer> countScale(String magType, double minMag, double maxMag, int recent) {
         List<Integer> slot = new ArrayList<Integer>();
         slot.add(earthquakeDao.recentlyQuakes(magType, 1, 2, recent));
@@ -151,17 +161,17 @@ public class EarthquakeServiceImpl implements EarthquakeService {
         slot.add(earthquakeDao.recentlyQuakes(magType, 3, 4, recent));
         slot.add(earthquakeDao.recentlyQuakes(magType, 4, 7, recent));
         return slot;
-    }
+    }*/
 
-    @Override
-    public boolean compareTwoPlace(int distance, double longitude1,
-            double latitude1, double longitude2, double latitude2){
-        int a = searchAroundPlace(distance, longitude1, latitude1).size();
-        int b = searchAroundPlace(distance, longitude2, latitude2).size();
-        return a > b;
-    }
+//    @Override
+//    public boolean compareTwoPlace(int distance, double longitude1,
+//            double latitude1, double longitude2, double latitude2){
+//        int a = searchAroundPlace(distance, longitude1, latitude1).size();
+//        int b = searchAroundPlace(distance, longitude2, latitude2).size();
+//        return a > b;
+//    }
 
-    @Override
+    /*@Override
     public Earthquake getLargestEarthquake (int distance, double longitude1,
             double latitude1) {
         List<Earthquake> earthquakeList = searchAroundPlace(distance, longitude1, latitude1);
@@ -174,7 +184,7 @@ public class EarthquakeServiceImpl implements EarthquakeService {
             }
         }
         return largest;
-    }
+    }*/
 
     private boolean currGreatPar(String curr, String par) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
