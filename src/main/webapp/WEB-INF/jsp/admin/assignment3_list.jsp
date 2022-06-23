@@ -204,7 +204,7 @@
 
     }
 
-    function ifdelete(id) {
+    function ifdeleteCache(id) {
         layer.confirm('delete?', {
             btn: ['yes','no'] //按钮
         }, function(){

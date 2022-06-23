@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,6 +83,16 @@ public class EarthquakeServiceImpl implements EarthquakeService {
     @Override
     public List<Earthquake> queryAll() {
         return earthquakeDao.queryAll();
+    }
+
+    @Override
+    public List<Earthquake> queryAllCache() {
+        Set<String> keys = earthquakeDao.queryAll().stream().map(e->e.getId()).collect(Collectors.toSet());
+        return redisService.getAll(keys)
+                .values()
+                .stream()
+                .map(e -> (Earthquake)e)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -24,6 +24,8 @@ public interface EarthquakeService {
 
     List<Earthquake> queryAll();
 
+    List<Earthquake> queryAllCache();
+
     List<Earthquake> selectByParams(Earthquake record);
 
     List<Earthquake> selectByWord(String word);

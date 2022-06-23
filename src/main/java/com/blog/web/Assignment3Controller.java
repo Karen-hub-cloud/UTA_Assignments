@@ -41,6 +41,21 @@ public class Assignment3Controller {
         return modelAndView;
     }
 
+    @RequestMapping("/assignment3/listCache")
+    public ModelAndView articleListCache(@RequestParam(required = true, defaultValue = "1") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        long startTime = System.currentTimeMillis();
+        PageHelper.startPage(page, pageSize);
+        List<Earthquake> earthquakeList = earthquakeService.queryAllCache();
+        PageInfo<Earthquake> pageInfo = new PageInfo<Earthquake>(earthquakeList);
+        long endTime = System.currentTimeMillis();
+        ModelAndView modelAndView = new ModelAndView("/admin/assignment3_list");
+        modelAndView.addObject("earthquakeList", earthquakeList);
+        modelAndView.addObject("pageInfo", pageInfo);
+        modelAndView.addObject("time", endTime-startTime);
+        return modelAndView;
+    }
+
     @RequestMapping("/assignment3/add")
     public ModelAndView articleAdd() {
 

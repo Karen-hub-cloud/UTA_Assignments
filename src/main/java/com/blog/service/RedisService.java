@@ -1,5 +1,9 @@
 package com.blog.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -41,6 +45,19 @@ public class RedisService {
      */
     public Object get(final String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
+    }
+
+    public HashMap<String, Object> getAll(Set<String> keys){
+        HashMap<String, Object> map = new HashMap<>();
+        //循环
+        for (String key : keys){
+            //获取key对应的value
+            if(redisTemplate.hasKey(key)){
+                Object value = redisTemplate.opsForValue().get(key);
+                map.put(key,value);
+            }
+        }
+        return map;
     }
 
     public boolean del(String key){
